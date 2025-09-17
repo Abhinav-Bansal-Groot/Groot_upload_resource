@@ -1,5 +1,5 @@
 .env
 .venv/
-.__pyache__/"*.pyc" 
-.__pyache__/
-.__pyache__
+.__pycache__/"*.pyc" 
+.__pycache__/
+.__pycache__
