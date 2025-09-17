@@ -1,7 +1,6 @@
 from app.core.config import settings
 
 
-
 def check_meta_question(query: str) -> str | None:
     """Return deterministic response if query is about chatbot identity."""
     q = query.lower()
