@@ -34,8 +34,8 @@ def get_services():
 @router.post("/chat", response_model=ChatResponse)
 def chat(body: ChatRequest):
     services = get_services()
-    res = services["chat_repo"].handle_chat(body.question)
-    return {"answer": res["answer"]}
+    res = services["chat_repo"].handle_chat(body.prompt)
+    return {"prompt": body.prompt, "answer": res["answer"]}
 
 
 @router.post("/embed-resource")

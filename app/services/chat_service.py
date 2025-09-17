@@ -3,6 +3,7 @@ from app.services.meta_handler import check_meta_question
 from app.core.config import settings
 from langchain_core.documents import Document   # <- fix: ensure Document is defined for annotations
 
+
 class ChatService:
     def __init__(self, retriever, llm):
         """
@@ -23,7 +24,7 @@ class ChatService:
 
         context = "\n\n".join([f"Source: {d.metadata.get('source','')}\n{d.page_content}" for d in docs])
         prompt = (
-            f"You are a helpful assistant. Use the following context to answer the question.\n\n"
+            f"{settings.BOT_INSTRUCTIONS}"
             f"Context:\n{context}\n\nQuestion: {query}\n\nAnswer:"
         )
         ans = self.llm.generate(prompt)  # expects a string

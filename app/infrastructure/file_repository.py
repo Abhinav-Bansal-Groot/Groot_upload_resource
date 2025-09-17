@@ -54,10 +54,24 @@ class FileRepository:
 
         # Handle .json
         elif ext == ".json":
+            # Read the file content
             content = await file.read()
             try:
                 data = json.loads(content.decode("utf-8"))
-                text = json.dumps(data, indent=2)  # flatten as pretty string
             except Exception as e:
-                raise HTTPException(status_code=400, detail=f"Invalid JSON: {e}")
-            return [Document(page_content=text)]
+                raise ValueError(f"Invalid JSON file: {e}")
+
+            docs = []
+            if isinstance(data, list):
+                for item in data:
+                    sentence = " ".join([f"{k}: {v}" for k, v in item.items()])
+                    print("<<< sentence >>> = ", sentence)
+                    docs.append(Document(
+                        page_content=sentence,
+                        metadata=item
+                    ))
+            else:
+                sentence = " ".join([f"{k}: {v}" for k, v in data.items()])
+                docs.append(Document(page_content=sentence, metadata=data))
+            return docs
+

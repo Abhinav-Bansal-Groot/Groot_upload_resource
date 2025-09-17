@@ -62,10 +62,15 @@ class QdrantService:
             PointStruct(
                 id=i,
                 vector=vectors[i],
-                payload={"text": docs[i]},
+                payload={"text": docs[i].page_content, **(docs[i].metadata or {})},
             )
             for i in range(len(docs))
         ]
 
         self.client.upsert(collection_name=collection_name, points=points, wait=True)
         return len(points)
+    
+    def list_collections(self) -> list[str]:
+        collections = self.client.get_collections().collections
+        print(collections)
+        return [c.name for c in collections]
