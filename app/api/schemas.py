@@ -7,4 +7,4 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(ChatRequest):
     answer: str
-
+    

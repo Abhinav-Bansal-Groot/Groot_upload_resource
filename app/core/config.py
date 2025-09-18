@@ -12,7 +12,7 @@ class Settings:
     EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "3072"))
     BATCH_SIZE = int(os.getenv("BATCH_SIZE", "256"))
     # COLLECTIONS = [c.strip() for c in os.getenv("COLLECTIONS", "Careers,ServicesOffereds,DirectorsInfo").split(",")]
-    COLLECTIONS = os.getenv("COLLECTIO", "json")
+    # COLLECTIONS = os.getenv("COLLECTIO", "json")
     PROJECT_NAME: str = "Grootbot"  # chatbot name
     BOT_ROLE: str = "AI assistant"  # role/identity
     BOT_INSTRUCTIONS : str = "You are a helpful assistant. Use the following context to answer the question.\n\n"

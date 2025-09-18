@@ -6,6 +6,7 @@ from app.core import config
 class QdrantService:
     def __init__(self, url: str = config.settings.QDRANT_URL):
         self.client = QdrantClient(url=url)
+        
 
     def ensure_collection(self, collection_name: str, vector_size: int):
         # Create collection only if it doesn't exist

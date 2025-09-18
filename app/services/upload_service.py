@@ -1,11 +1,11 @@
 import os
 from fastapi import UploadFile
-from app.infrastructure.file_repository import FileRepository
+from app.repository.file_repository import FileRepository
 from app.services.qdrant_service import QdrantService
-from app.services.embeddings import EmbeddingService
+from app.ai.embeddings import Embeddings
 
 class UploadService:
-    def __init__(self, qdrant: QdrantService, embedder: EmbeddingService, file_repo: FileRepository):
+    def __init__(self, qdrant: QdrantService, embedder: Embeddings, file_repo: FileRepository):
         self.qdrant = qdrant
         self.embedder = embedder
         self.file_repo = file_repo

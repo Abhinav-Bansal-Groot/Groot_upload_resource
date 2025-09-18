@@ -1,7 +1,7 @@
 from langchain_openai import OpenAIEmbeddings
 from app.core import config
 
-class EmbeddingService:
+class Embeddings:
     def __init__(self, model: str | None = None):
         model = model or config.settings.EMBEDDING_MODEL
         self.client = OpenAIEmbeddings(model=model, api_key=config.settings.OPENAI_API_KEY)
@@ -12,6 +12,3 @@ class EmbeddingService:
 
     def embed_documents(self, texts: list[str]):
         return self.client.embed_documents(texts)
-
-    def embed_query(self, text: str):
-        return self.client.embed_query(text)

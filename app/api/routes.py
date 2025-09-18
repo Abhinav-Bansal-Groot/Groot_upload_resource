@@ -1,28 +1,26 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, Request, File, Form, UploadFile
 
-from app.infrastructure.chat_repository import ChatRepository
+from app.repository.chat_repository import ChatRepository
+from app.repository.file_repository import FileRepository
 
 from app.services.retrieval_service import RetrievalService
 from app.services.chat_service import ChatService
 from app.services.upload_service import UploadService
-from app.infrastructure.file_repository import FileRepository
 
 from app.services.qdrant_service import QdrantService
-from app.services.llm import LLMService
+from app.ai.llm import LLM
 from app.services.URLService import URLService
-from app.services.embeddings import EmbeddingService
+from app.ai.embeddings import Embeddings
 
 from .schemas import ChatRequest, ChatResponse
-import json
-import os
 
 router = APIRouter(prefix="/api")
 
 
 def get_services():
     qdrant = QdrantService()
-    embedder = EmbeddingService()
-    llm = LLMService()
+    embedder = Embeddings()
+    llm = LLM()
 
     retr = RetrievalService(qdrant, embedder)
     chat_service = ChatService(retr, llm)
@@ -52,8 +50,12 @@ async def upload_resource(
     result = await upload_service.upload_file(file, collection_name)
     return result
 
+
 @router.post("/embed-website-text")
-async def embed_url(url: str = Form(...), collection_name: str = Form("url_collection")):
+async def embed_url(
+    url: str = Form(...), 
+    collection_name: str = Form("url_collection")
+):
     services = get_services()
     qdrant = services["qdrant"]
     embedder = services["embedder"]
@@ -67,4 +69,3 @@ async def embed_url(url: str = Form(...), collection_name: str = Form("url_colle
     texts = [text]  # could later split
     count = qdrant.upsert_texts(collection_name, texts, embedder)
     return {"status": "success", "points_added": count, "source": url}
-
